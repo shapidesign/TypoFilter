@@ -3,12 +3,34 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #000000;
+  /* Coolors Palette */
+  --color-imperial-red: #E63946;
+  --color-honeydew: #F1FAEE;
+  --color-powder-blue: #A8DADC;
+  --color-celadon-blue: #457B9D;
+  --color-prussian-blue: #1D3557;
+
+  --background: #F1FAEE; /* Using Honeydew as background */
+  --foreground: #1D3557; /* Prussian Blue as main text */
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-assistant), sans-serif;
+}
+
+/* Custom scrollbar for better aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #A8DADC;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #457B9D;
 }
