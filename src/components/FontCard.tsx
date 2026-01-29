@@ -1,58 +1,76 @@
 import React from 'react';
 import { Font, CATEGORY_LABELS } from '@/data/fonts';
-
-// Default sample texts to cycle through
-const SAMPLE_TEXTS = [
-  'עברית יפה',
-  'שלום עולם',
-  'כותרת ראשית',
-  'טקסט גוף',
-  'עיצוב טיפוגרפי',
-  'אותיות עבריות',
-  'מילים בעברית',
-  'גופן מיוחד',
-  'תוכן עברי',
-  'כתיבה יפה',
-];
+import { FontPreview } from './FontPreview';
+import { ExternalLink } from 'lucide-react';
 
 interface FontCardProps {
   font: Font;
-  index?: number;
 }
 
-export const FontCard: React.FC<FontCardProps> = ({ font, index = 0 }) => {
-  // Use custom sample text or cycle through defaults
-  const sampleText = font.sampleText || SAMPLE_TEXTS[index % SAMPLE_TEXTS.length];
+// Helper to convert Font personality to traits for preview
+const getFontTraits = (font: Font): string[] => {
+  const traits: string[] = [];
+
+  // Map personality scores to keywords expected by FontPreview
+  // 1 = Left side, 5 = Right side of the scale
+  if (font.personality.elegant_rugged <= 2) traits.push('אלגנטי');
+  if (font.personality.classic_progressive >= 4) traits.push('מודרני');
+  if (font.personality.neutral_expressive >= 4) traits.push('שובב'); // Expressive -> Playful
+  if (font.personality.classic_progressive <= 2) traits.push('רטרו'); // Classic -> Retro
+
+  return traits;
+};
+
+export const FontCard: React.FC<FontCardProps> = ({ font }) => {
+  const traits = getFontTraits(font);
 
   return (
     <a
       href={font.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="block py-10 border-b border-gray-100 hover:bg-gray-50/50 transition-colors"
+      className="group flex flex-col bg-card rounded-xl border border-border overflow-hidden hover:shadow-lg hover:border-primary/20 transition-all duration-300"
     >
-      {/* Large Font Sample */}
-      <div className="text-center mb-5">
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">
-          {sampleText}
-        </h2>
-      </div>
-      
-      {/* Tags */}
-      <div className="flex items-center justify-center gap-1.5 flex-wrap text-sm">
-        <span className="text-gray-500">{font.name}</span>
-        <span className="text-gray-300">•</span>
-        <span className="text-gray-500">{font.foundry}</span>
-        {font.isFree && (
-          <>
-            <span className="text-gray-300">•</span>
-            <span className="text-green-600 border border-green-300 bg-green-50 px-2 py-0.5 rounded text-sm">
+      {/* Preview Area */}
+      <div className="relative aspect-[16/10] bg-muted/30 overflow-hidden">
+        <div className="absolute inset-0 p-6 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+          {/* We use the FontPreview but wrapped to handle sizing */}
+          <div className="w-full h-full pointer-events-none select-none opacity-80 group-hover:opacity-100 transition-opacity">
+            <FontPreview traits={traits} />
+          </div>
+        </div>
+
+        {/* Overlay Badges */}
+        <div className="absolute top-3 right-3 flex flex-col gap-2">
+          {font.isFree && (
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-700 tracking-wide shadow-sm">
               חינמי
             </span>
-          </>
-        )}
-        <span className="text-gray-300">•</span>
-        <span className="text-gray-500">{CATEGORY_LABELS[font.category]}</span>
+          )}
+        </div>
+
+        <div className="absolute bottom-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="bg-primary text-primary-foreground p-1.5 rounded-full shadow-md">
+            <ExternalLink size={14} />
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-4 flex flex-col gap-2 border-t border-border/50">
+        <div className="flex justify-between items-start">
+          <div>
+            <h3 className="font-bold text-lg text-foreground leading-none mb-1 group-hover:text-primary transition-colors">
+              {font.name}
+            </h3>
+            <p className="text-xs text-muted-foreground font-medium">
+              {font.foundry}
+            </p>
+          </div>
+          <span className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground border border-border px-1.5 py-0.5 rounded">
+            {CATEGORY_LABELS[font.category]}
+          </span>
+        </div>
       </div>
     </a>
   );
