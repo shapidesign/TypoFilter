@@ -1,48 +1,58 @@
 import React from 'react';
-import { Font } from '@/data/fonts';
-import { FontPreview } from './FontPreview';
-import { ExternalLink } from 'lucide-react';
+import { Font, CATEGORY_LABELS } from '@/data/fonts';
+
+// Default sample texts to cycle through
+const SAMPLE_TEXTS = [
+  'עברית יפה',
+  'שלום עולם',
+  'כותרת ראשית',
+  'טקסט גוף',
+  'עיצוב טיפוגרפי',
+  'אותיות עבריות',
+  'מילים בעברית',
+  'גופן מיוחד',
+  'תוכן עברי',
+  'כתיבה יפה',
+];
 
 interface FontCardProps {
   font: Font;
+  index?: number;
 }
 
-export const FontCard: React.FC<FontCardProps> = ({ font }) => {
-  const previewTraits = [font.category]; 
+export const FontCard: React.FC<FontCardProps> = ({ font, index = 0 }) => {
+  // Use custom sample text or cycle through defaults
+  const sampleText = font.sampleText || SAMPLE_TEXTS[index % SAMPLE_TEXTS.length];
 
   return (
     <a
       href={font.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group block bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md hover:ring-2 hover:ring-[#E63946] transition-all duration-200"
+      className="block py-10 border-b border-gray-100 hover:bg-gray-50/50 transition-colors"
     >
-      {/* Preview Area */}
-      <div className="relative aspect-[3/2] flex items-center justify-center border-b border-[#A8DADC]/30 overflow-hidden bg-[#F1FAEE] group-hover:bg-white transition-colors">
-         <div className="w-full h-full p-6 flex items-center justify-center">
-            <FontPreview traits={previewTraits} />
-         </div>
-         
-         {/* Hover Overlay Icon */}
-         <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <div className="w-6 h-6 bg-[#1D3557] text-white rounded-full flex items-center justify-center">
-                <ExternalLink size={10} />
-            </div>
-         </div>
+      {/* Large Font Sample */}
+      <div className="text-center mb-5">
+        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight tracking-tight">
+          {sampleText}
+        </h2>
       </div>
       
-      {/* Compact Footer */}
-      <div className="px-3 py-2 flex justify-between items-center bg-white">
-        <div>
-          <h3 className="text-sm font-bold text-[#1D3557] leading-tight mb-0.5 group-hover:text-[#E63946] transition-colors">{font.name}</h3>
-          <span className="text-[10px] text-[#457B9D] font-medium tracking-wide">{font.foundry}</span>
-        </div>
-        
+      {/* Tags */}
+      <div className="flex items-center justify-center gap-1.5 flex-wrap text-sm">
+        <span className="text-gray-500">{font.name}</span>
+        <span className="text-gray-300">•</span>
+        <span className="text-gray-500">{font.foundry}</span>
         {font.isFree && (
-            <span className="text-[9px] font-bold tracking-wider uppercase text-[#1D3557] bg-[#A8DADC]/30 px-1.5 py-0.5 rounded-sm">
-                Free
+          <>
+            <span className="text-gray-300">•</span>
+            <span className="text-green-600 border border-green-300 bg-green-50 px-2 py-0.5 rounded text-sm">
+              חינמי
             </span>
+          </>
         )}
+        <span className="text-gray-300">•</span>
+        <span className="text-gray-500">{CATEGORY_LABELS[font.category]}</span>
       </div>
     </a>
   );

@@ -3,15 +3,8 @@
 @tailwind utilities;
 
 :root {
-  /* Coolors Palette */
-  --color-imperial-red: #E63946;
-  --color-honeydew: #F1FAEE;
-  --color-powder-blue: #A8DADC;
-  --color-celadon-blue: #457B9D;
-  --color-prussian-blue: #1D3557;
-
-  --background: #F1FAEE; /* Using Honeydew as background */
-  --foreground: #1D3557; /* Prussian Blue as main text */
+  --background: #ffffff;
+  --foreground: #1a1a1a;
 }
 
 body {
@@ -28,9 +21,9 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #A8DADC;
+  background: #e0e0e0;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #457B9D;
+  background: #bdbdbd;
 }

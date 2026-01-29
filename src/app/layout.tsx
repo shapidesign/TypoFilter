@@ -8,7 +8,7 @@ const assistant = Assistant({
 });
 
 export const metadata: Metadata = {
-  title: "תקציר גופנים בעברית",
+  title: "פונט בריף - גלריית גופנים בעברית",
   description: "גלה גופנים בעברית לפי אופי",
 };
 

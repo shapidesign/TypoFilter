@@ -17,6 +17,7 @@ export interface Font {
   isFree: boolean;
   category: Category;
   personality: Personality;
+  sampleText?: string;
 }
 
 export const CATEGORY_LABELS: Record<Category, string> = {
